@@ -4,25 +4,38 @@ namespace Simplia\ShortHash;
 class Encoder {
     const ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
 
-    public function getShort($string, $length = 12) {
-        if(empty($string)) {
+    /**
+     * @param string $input
+     * @param int $length
+     * @return string
+     */
+    public function getShort($input, $length = 12) {
+        if(empty($input)) {
             throw new \InvalidArgumentException('Cannot encode empty string');
         }
         if($length > 25) {
             throw new \InvalidArgumentException('Maximum hash length is 25');
         }
-        return substr(base_convert(md5($string), 16, 36), 0, $length);
+        return substr(base_convert(md5($input), 16, 36), 0, $length);
     }
 
-    public function encode($string) {
-        if(empty($string)) {
+    /**
+     * @param string $input
+     * @return string
+     */
+    public function encode($input) {
+        if(empty($input)) {
             throw new \InvalidArgumentException('Cannot encode empty string');
         }
-        $string = trim(mb_strtolower($string));
-        return $this->getShort($string);
+        $input = trim(mb_strtolower($input));
+        return $this->getShort($input);
     }
 
-    public function getUnique($string) {
-        return $this->getShort(uniqid($string, true));
+    /**
+     * @param string $input
+     * @return string
+     */
+    public function getUnique($input) {
+        return $this->getShort(uniqid($input, true));
     }
 }
